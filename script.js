@@ -66,11 +66,19 @@ document.getElementById('prepareWhatsAppButton').addEventListener('click', funct
           Atenciosamente,
           Technique Eletrônica`;
 
-      // Abrir WhatsApp Web com mensagem pré-preenchida
-      const whatsappURL = `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(whatsappMessage)}`;
+
+      // Detectar dispositivo e definir URL correta
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const whatsappURL = isMobile
+          ? `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(whatsappMessage)}`
+          : `https://web.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(whatsappMessage)}`;
+
       window.open(whatsappURL);
+
+      // Limpar o formulário após o envio
+      document.getElementById('budgetForm').reset();
   } else {
-      alert('Por favor, insira um número de telefone válido.');
+      alert('Por favor, insira um número de telefone válido com DDD.');
   }
 });
 
